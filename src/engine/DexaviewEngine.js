@@ -18,7 +18,7 @@
  */
 
 import * as THREE from "three";
-import { WebGPURenderer } from "three/addons/renderers/WebGPURenderer.js";
+import { WebGPURenderer } from "three/addons/renderers/webgpu/WebGPURenderer.js";
 import RAPIER from "@dimforge/rapier3d-compat";
 import { TechnicalAdvisorAgent } from "./TechnicalAdvisorAgent.js";
 import { IndustrialAssetLoader } from "./IndustrialAssetLoader.js";
