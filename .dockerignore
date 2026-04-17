@@ -1,0 +1,12 @@
+node_modules
+dist
+.env
+__pycache__
+*.pyc
+.venv
+.git
+.gitignore
+README.md
+docs
+tests
+dexaview.zip
