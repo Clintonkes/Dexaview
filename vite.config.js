@@ -12,12 +12,20 @@
 
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import path from "path";
 
 export default defineConfig({
   plugins: [react()],
 
+  resolve: {
+    alias: {
+      "three/addons": path.resolve(__dirname, "node_modules/three/examples/jsm"),
+      "three/webgpu": path.resolve(__dirname, "node_modules/three/build/three.webgpu.js"),
+      "three": path.resolve(__dirname, "node_modules/three/build/three.webgpu.js"),
+    },
+  },
+
   optimizeDeps: {
-    // Rapier manages its own WASM init sequence – exclude from Vite pre-bundling
     exclude: ["@dimforge/rapier3d-compat"],
   },
 
