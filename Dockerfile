@@ -9,6 +9,9 @@ RUN ls -la dist/
 
 FROM nginx:alpine
 COPY --from=builder /app/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/templates/default.conf.template
+# Store as a plain template — NOT in /etc/nginx/templates/ to avoid
+# the nginx image's own envsubst pass which corrupts $uri and regex anchors.
+COPY nginx.conf /etc/nginx/nginx.conf.template
 EXPOSE 8080
-CMD ["nginx", "-g", "daemon off;"]
+# Substitute only ${PORT}, then start nginx.
+CMD ["/bin/sh", "-c", "envsubst '${PORT}' < /etc/nginx/nginx.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
