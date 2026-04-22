@@ -13,5 +13,5 @@ COPY --from=builder /app/dist /usr/share/nginx/html
 # the nginx image's own envsubst pass which corrupts $uri and regex anchors.
 COPY nginx.conf /etc/nginx/nginx.conf.template
 EXPOSE 8080
-# Substitute only ${PORT}, then start nginx.
-CMD ["/bin/sh", "-c", "envsubst '${PORT}' < /etc/nginx/nginx.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
+# Substitute only ${PORT} with a safe fallback, then start nginx.
+CMD ["/bin/sh", "-c", "export PORT=\"${PORT:-8080}\" && envsubst '${PORT}' < /etc/nginx/nginx.conf.template > /etc/nginx/conf.d/default.conf && nginx -t && nginx -g 'daemon off;'"]
