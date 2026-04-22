@@ -15,6 +15,6 @@ RUN chmod +x /start.sh
 EXPOSE 8080
 
 # Override the nginx entrypoint entirely — no init scripts, no envsubst pass.
-# start.sh uses sed to substitute NGINX_PORT and launches nginx.
+# start.sh safely substitutes only the listen port and launches nginx.
 ENTRYPOINT []
 CMD ["/start.sh"]
