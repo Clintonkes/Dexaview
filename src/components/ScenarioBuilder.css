@@ -1,0 +1,234 @@
+.scenario-builder {
+  min-height: 100vh;
+  background: #0a0d14;
+  color: #e0e8f0;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.scenario-builder__header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.scenario-builder__title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  letter-spacing: 0.3em;
+  color: #00d4ff;
+  margin: 0;
+}
+
+.scenario-builder__subtitle {
+  font-size: 1rem;
+  color: #7a9bb5;
+  margin-top: 0.4rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.scenario-builder__form {
+  width: 100%;
+  max-width: 760px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.scenario-builder__section {
+  background: #121824;
+  border: 1px solid #1e2d3d;
+  border-radius: 8px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.scenario-builder__section-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #00d4ff;
+  margin: 0 0 0.4rem 0;
+  border-bottom: 1px solid #1e2d3d;
+  padding-bottom: 0.6rem;
+}
+
+.scenario-builder__section-hint {
+  font-size: 0.82rem;
+  color: #5a7a90;
+  margin: -0.5rem 0 0.2rem;
+  line-height: 1.5;
+}
+
+.scenario-builder__label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #7a9bb5;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.scenario-builder__label--small {
+  flex: 1;
+  min-width: 140px;
+}
+
+.scenario-builder__hint {
+  font-size: 0.75rem;
+  color: #4a6a80;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+
+.scenario-builder__input,
+.scenario-builder__select,
+.scenario-builder__textarea {
+  background: #0a0d14;
+  border: 1px solid #1e2d3d;
+  border-radius: 4px;
+  color: #e0e8f0;
+  font-size: 0.92rem;
+  padding: 0.55rem 0.8rem;
+  font-family: inherit;
+  transition: border-color 0.15s;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+
+.scenario-builder__input:focus,
+.scenario-builder__select:focus,
+.scenario-builder__textarea:focus {
+  outline: none;
+  border-color: #00d4ff;
+}
+
+.scenario-builder__input--error {
+  border-color: #e74c3c !important;
+}
+
+.scenario-builder__textarea {
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.scenario-builder__error {
+  font-size: 0.75rem;
+  color: #e74c3c;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 400;
+}
+
+/* Cue point card */
+.scenario-builder__cue {
+  background: #0d1520;
+  border: 1px solid #1a2840;
+  border-radius: 6px;
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.scenario-builder__cue-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.scenario-builder__cue-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #00d4ff;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.scenario-builder__cue-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.scenario-builder__telemetry {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.scenario-builder__telemetry-title {
+  font-size: 0.75rem;
+  color: #5a7a90;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.scenario-builder__remove-btn {
+  background: transparent;
+  border: 1px solid #e74c3c44;
+  color: #e74c3c;
+  border-radius: 4px;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.scenario-builder__remove-btn:hover {
+  background: #e74c3c22;
+}
+
+.scenario-builder__add-btn {
+  background: transparent;
+  border: 1px dashed #1e2d3d;
+  color: #7a9bb5;
+  border-radius: 6px;
+  padding: 0.8rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+  font-family: inherit;
+  letter-spacing: 0.04em;
+}
+
+.scenario-builder__add-btn:hover {
+  border-color: #00d4ff;
+  color: #00d4ff;
+}
+
+.scenario-builder__submit-btn {
+  background: #00d4ff;
+  border: none;
+  color: #0a0d14;
+  border-radius: 6px;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s;
+  font-family: inherit;
+  text-transform: uppercase;
+  align-self: center;
+  min-width: 240px;
+}
+
+.scenario-builder__submit-btn:hover {
+  background: #00b8e0;
+  transform: translateY(-1px);
+}
+
+.scenario-builder__submit-btn:active {
+  transform: translateY(0);
+}

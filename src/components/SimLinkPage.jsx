@@ -26,33 +26,10 @@ import FpsCounter from "./FpsCounter";
 import "./SimLinkPage.css";
 
 // ---------------------------------------------------------------------------
-// Demo configuration
-// ---------------------------------------------------------------------------
-
-/**
- * Registered cue points for the demo video.
- * Change the videoId and these timestamps to match your own content.
- */
-const DEMO_VIDEO_ID = "REPLACE_WITH_YOUR_YOUTUBE_VIDEO_ID";
-
-const DEMO_CUES = [
-  {
-    time: 90,       // 1 min 30 sec
-    eventName: "blowout",
-    origin: new THREE.Vector3(0, 0, 0),
-  },
-  {
-    time: 240,      // 4 min 0 sec
-    eventName: "collapse",
-    origin: new THREE.Vector3(0, 5, 0),
-  },
-];
-
-// ---------------------------------------------------------------------------
 // Component
 // ---------------------------------------------------------------------------
 
-export default function SimLinkPage() {
+export default function SimLinkPage({ scenario }) {
   const canvasRef = useRef(null);
   const engineRef = useRef(null);
 
@@ -60,6 +37,17 @@ export default function SimLinkPage() {
   const [advisorInput, setAdvisorInput] = useState("");
   const [fps, setFps] = useState(0);
   const [activeEvent, setActiveEvent] = useState(null);
+  const [activeEventDesc, setActiveEventDesc] = useState(null);
+
+  // Derive video ID and cue list from the scenario passed by ScenarioBuilder
+  const videoId = scenario?.videoId ?? "";
+  const cueList = (scenario?.cues ?? []).map((c) => ({
+    time:        c.time,
+    eventName:   c.eventName,
+    origin:      new THREE.Vector3(0, 0, 0),
+    description: c.description,
+    telemetry:   c.telemetry,
+  }));
 
   // -------------------------------------------------------------------------
   // Engine lifecycle
@@ -71,7 +59,7 @@ export default function SimLinkPage() {
 
     const engine = new DexaviewEngine(canvas, {
       openAiApiKey: import.meta.env.VITE_OPENAI_API_KEY,
-      industryMode: "oil_gas",
+      industryMode: scenario?.industryMode ?? "oil_gas",
     });
 
     engineRef.current = engine;
@@ -101,8 +89,10 @@ export default function SimLinkPage() {
 
     const handlePhysicsEvent = ({ detail }) => {
       setActiveEvent(detail.eventName);
-      // Clear the event badge after 3 seconds
-      setTimeout(() => setActiveEvent(null), 3000);
+      // Show description from the matching cue if available
+      const matchedCue = cueList.find((c) => c.eventName === detail.eventName);
+      if (matchedCue?.description) setActiveEventDesc(matchedCue.description);
+      setTimeout(() => { setActiveEvent(null); setActiveEventDesc(null); }, 6000);
     };
 
     canvas.addEventListener("dexaview:ai-response", handleAiResponse);
@@ -122,19 +112,21 @@ export default function SimLinkPage() {
   // -------------------------------------------------------------------------
 
   const { addCue, seekVideo } = useSimLink(engineRef, {
-    videoId: DEMO_VIDEO_ID,
+    videoId,
     onCueTriggered: (cue) => {
-      // When a cue fires, automatically ask the advisor about the event
+      const context = cue.description
+        ? `Context: ${cue.description} `
+        : "";
       engineRef.current?.askAdvisor(
-        `A "${cue.eventName}" event has just been triggered at simulation time ${cue.time}s. What is the immediate response procedure?`
+        `A "${cue.eventName}" event has just been triggered at ${cue.time}s. ${context}What is the immediate response procedure?`
       );
     },
   });
 
-  // Register demo cues once on mount
+  // Register scenario cues once on mount
   useEffect(() => {
-    DEMO_CUES.forEach(addCue);
-  }, [addCue]);
+    cueList.forEach(addCue);
+  }, [addCue]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // -------------------------------------------------------------------------
   // UI handlers
@@ -186,13 +178,13 @@ export default function SimLinkPage() {
 
         {/* Quick-seek buttons for demo timestamps */}
         <div className="simlink-page__seek-controls">
-          {DEMO_CUES.map((cue) => (
+          {cueList.map((cue) => (
             <button
               key={cue.time}
               className="simlink-page__seek-btn"
               onClick={() => seekVideo(cue.time)}
             >
-              ⏩ {cue.eventName} @ {cue.time}s
+              ⏩ {cue.eventName} @ {Math.floor(cue.time / 60)}:{String(cue.time % 60).padStart(2, "0")}
             </button>
           ))}
         </div>
@@ -209,7 +201,15 @@ export default function SimLinkPage() {
 
         {activeEvent && (
           <div className="simlink-page__event-badge">
-            ⚡ {activeEvent.toUpperCase()} TRIGGERED
+            <div className="simlink-page__event-name">
+              ⚡ {activeEvent.toUpperCase()} TRIGGERED
+            </div>
+            {activeEventDesc && (
+              <div className="simlink-page__event-desc">{activeEventDesc}</div>
+            )}
+            <div className="simlink-page__event-prompt">
+              Ask the AI Advisor for the correct procedure →
+            </div>
           </div>
         )}
 
