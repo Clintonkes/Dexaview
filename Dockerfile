@@ -3,6 +3,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
+RUN mkdir -p public/draco && cp -r node_modules/three/examples/jsm/libs/draco/gltf/* public/draco/
 RUN npm run build
 RUN ls -la dist/
 
