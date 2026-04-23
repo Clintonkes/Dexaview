@@ -11,6 +11,7 @@
 
 import { useState, useCallback } from "react";
 import { SAMPLE_SCENARIOS, scenarioToFormState } from "../data/sampleScenarios";
+import { parseScenarioText } from "../engine/ScenarioParser";
 import "./ScenarioBuilder.css";
 
 const INDUSTRY_MODES = [
@@ -77,9 +78,60 @@ export default function ScenarioBuilder({ onStart }) {
     setDescription(state.description);
     setCues(state.cues);
     setErrors({});
-    // Scroll form into view
     document.querySelector(".scenario-builder__form")?.scrollIntoView({ behavior: "smooth" });
   }, []);
+
+  // -------------------------------------------------------------------------
+  // Professional text parser
+  // -------------------------------------------------------------------------
+
+  const [proText, setProText]       = useState("");
+  const [parsing, setParsing]       = useState(false);
+  const [parseError, setParseError] = useState(null);
+  const [parseSuccess, setParseSuccess] = useState(false);
+
+  const handleParse = useCallback(async () => {
+    setParsing(true);
+    setParseError(null);
+    setParseSuccess(false);
+
+    const result = await parseScenarioText(
+      proText,
+      import.meta.env.VITE_OPENAI_API_KEY
+    );
+
+    setParsing(false);
+
+    if (!result.ok) {
+      setParseError(result.error);
+      return;
+    }
+
+    // Populate form from parsed scenario
+    const s = result.scenario;
+    setIndustry(s.industryMode ?? "oil_gas");
+    setTitle(s.title ?? "");
+    setDescription(s.description ?? "");
+    // Use the AI-suggested video search query as a placeholder hint
+    setVideoInput(s.videoSearchQuery ? "" : "");
+    setCues(
+      (s.cues ?? []).map((c) => ({
+        time:        c.time ?? "",
+        eventName:   c.eventName ?? "blowout",
+        description: c.description ?? "",
+        telemetry:   c.telemetry ?? { pressure: "", temp: "", status: "WARNING" },
+      }))
+    );
+    setErrors({});
+    setParseSuccess(true);
+
+    // Store the video search hint for display
+    if (s.videoSearchQuery) {
+      sessionStorage.setItem("dexaview_video_hint", s.videoSearchQuery);
+    }
+
+    document.querySelector(".scenario-builder__form")?.scrollIntoView({ behavior: "smooth" });
+  }, [proText]);
 
   // -------------------------------------------------------------------------
   // Cue management
@@ -165,6 +217,84 @@ export default function ScenarioBuilder({ onStart }) {
       </header>
 
       {/* -------------------------------------------------------------------- */}
+      {/* Professional Text Input — AI-Powered Parser                          */}
+      {/* -------------------------------------------------------------------- */}
+      <div className="scenario-builder__pro-wrap">
+        <div className="scenario-builder__pro-header">
+          <div>
+            <span className="scenario-builder__pro-title">PROFESSIONAL INPUT</span>
+            <span className="scenario-builder__pro-badge">AI-Powered</span>
+          </div>
+          <p className="scenario-builder__pro-sub">
+            Describe your scenario in plain English. The AI will extract the industry,
+            events, timestamps, telemetry values, and descriptions automatically.
+          </p>
+        </div>
+
+        <div className="scenario-builder__pro-examples">
+          <span className="scenario-builder__pro-examples-label">Examples:</span>
+          {[
+            "Simulate a deepwater BOP failure at 1 minute 30 seconds. Pressure at 8,500 psi before blowout. At 4 minutes the riser disconnects due to structural damage.",
+            "Data center CRAC unit A3 trips offline. Inlet temp rises above ASHRAE A2 limit at 2 minutes. VESDA alarm triggers at 4 minutes. UPS transfer at 6 minutes.",
+            "IWCF Level 2 training. Well takes a 15-barrel kick at 45 seconds. Soft shut-in at 1:30. Kill mud weight calculation at 3:20. Use realistic SIDPP and SICP values.",
+            "Secondary school physics lesson. Show Pascal's law using a well blowout. First event at 1 minute — pressure spike with calculation. Second at 2:30 — uncontrolled flow.",
+            "H2S release at a sour gas wellsite. Detectors alarm at 30 seconds. Fire and ignition at 1:50. Evacuation and ESD at 3:00. Reference API RP 49.",
+          ].map((ex, i) => (
+            <button
+              key={i}
+              type="button"
+              className="scenario-builder__pro-example-btn"
+              onClick={() => { setProText(ex); setParseError(null); setParseSuccess(false); }}
+            >
+              {ex.length > 80 ? ex.slice(0, 80) + "…" : ex}
+            </button>
+          ))}
+        </div>
+
+        <textarea
+          className="scenario-builder__pro-textarea"
+          rows={5}
+          placeholder={
+            "Type freely. For example:\n\n" +
+            "\"Simulate a pipeline rupture on a 32-inch gas transmission line at mile marker 47. " +
+            "SCADA detects a 48 MMSCFD flow anomaly at 1 minute. Gas cloud confirmed at 2:30. " +
+            "Isolate the segment and initiate blowdown at 4 minutes. Reference 49 CFR Part 192.\""
+          }
+          value={proText}
+          onChange={(e) => { setProText(e.target.value); setParseError(null); setParseSuccess(false); }}
+        />
+
+        {parseError && (
+          <div className="scenario-builder__pro-error">⚠ {parseError}</div>
+        )}
+
+        {parseSuccess && (
+          <div className="scenario-builder__pro-success">
+            ✓ Scenario parsed successfully — form has been populated below.
+            Review the fields, add your YouTube video ID, then click Launch.
+          </div>
+        )}
+
+        <div className="scenario-builder__pro-actions">
+          <button
+            type="button"
+            className="scenario-builder__pro-parse-btn"
+            onClick={handleParse}
+            disabled={parsing || !proText.trim()}
+          >
+            {parsing ? (
+              <><span className="scenario-builder__pro-spinner" /> Parsing with AI…</>
+            ) : (
+              "Parse & Fill Form →"
+            )}
+          </button>
+          <span className="scenario-builder__pro-note">
+            Uses GPT-4o · ~3 seconds · Your API key must be set in Railway variables
+          </span>
+        </div>
+      </div>
+
+      {/* -------------------------------------------------------------------- */}
       {/* Sample Scenario Library                                               */}
       {/* -------------------------------------------------------------------- */}
       <div className="scenario-builder__samples-wrap">
@@ -229,6 +359,13 @@ export default function ScenarioBuilder({ onStart }) {
               onChange={(e) => setVideoInput(e.target.value)}
             />
             {errors.video && <span className="scenario-builder__error">{errors.video}</span>}
+            {parseSuccess && sessionStorage.getItem("dexaview_video_hint") && (
+              <span className="scenario-builder__video-hint">
+                💡 Suggested YouTube search:{" "}
+                <strong>{sessionStorage.getItem("dexaview_video_hint")}</strong>
+                {" — "}search this on YouTube, copy the video ID from the URL, paste above.
+              </span>
+            )}
           </label>
 
           <label className="scenario-builder__label">

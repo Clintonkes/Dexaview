@@ -233,6 +233,208 @@
   transform: translateY(0);
 }
 
+/* ---- Professional Text Parser ---- */
+
+.scenario-builder__pro-wrap {
+  width: 100%;
+  max-width: 1100px;
+  background: #0d1a2a;
+  border: 1px solid #00d4ff33;
+  border-radius: 10px;
+  padding: 1.8rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.scenario-builder__pro-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.scenario-builder__pro-title {
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: #00d4ff;
+  text-transform: uppercase;
+}
+
+.scenario-builder__pro-badge {
+  display: inline-block;
+  margin-left: 0.6rem;
+  background: #00d4ff22;
+  border: 1px solid #00d4ff55;
+  color: #00d4ff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 0.15rem 0.5rem;
+  border-radius: 20px;
+  vertical-align: middle;
+  text-transform: uppercase;
+}
+
+.scenario-builder__pro-sub {
+  font-size: 0.85rem;
+  color: #7a9bb5;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Example prompts */
+.scenario-builder__pro-examples {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.scenario-builder__pro-examples-label {
+  font-size: 0.72rem;
+  color: #3a5a70;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
+  display: block;
+}
+
+.scenario-builder__pro-example-btn {
+  background: #0a1520;
+  border: 1px solid #1a2a3a;
+  color: #5a7a90;
+  border-radius: 4px;
+  padding: 0.45rem 0.8rem;
+  font-size: 0.78rem;
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  line-height: 1.4;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.scenario-builder__pro-example-btn:hover {
+  border-color: #00d4ff44;
+  color: #a0c8d8;
+}
+
+/* Main textarea */
+.scenario-builder__pro-textarea {
+  background: #060c14;
+  border: 1px solid #1e3050;
+  border-radius: 6px;
+  color: #e0e8f0;
+  font-size: 0.92rem;
+  padding: 1rem;
+  font-family: inherit;
+  line-height: 1.6;
+  resize: vertical;
+  transition: border-color 0.15s;
+}
+
+.scenario-builder__pro-textarea:focus {
+  outline: none;
+  border-color: #00d4ff;
+}
+
+.scenario-builder__pro-textarea::placeholder {
+  color: #2a4060;
+  font-style: italic;
+}
+
+/* Status messages */
+.scenario-builder__pro-error {
+  background: #2a0a0a;
+  border: 1px solid #e74c3c55;
+  color: #e74c3c;
+  border-radius: 4px;
+  padding: 0.7rem 1rem;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.scenario-builder__pro-success {
+  background: #0a2a1a;
+  border: 1px solid #00c85555;
+  color: #00c855;
+  border-radius: 4px;
+  padding: 0.7rem 1rem;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+/* Actions row */
+.scenario-builder__pro-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.scenario-builder__pro-parse-btn {
+  background: #00d4ff;
+  border: none;
+  color: #060c14;
+  border-radius: 6px;
+  padding: 0.75rem 1.8rem;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.scenario-builder__pro-parse-btn:hover:not(:disabled) {
+  background: #00b8e0;
+}
+
+.scenario-builder__pro-parse-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.scenario-builder__pro-spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid #060c1466;
+  border-top-color: #060c14;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.scenario-builder__pro-note {
+  font-size: 0.75rem;
+  color: #3a5a70;
+  line-height: 1.4;
+}
+
+/* Video hint after parse */
+.scenario-builder__video-hint {
+  font-size: 0.78rem;
+  color: #7a9bb5;
+  margin-top: 0.3rem;
+  line-height: 1.5;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 400;
+  display: block;
+  background: #0d1a2a;
+  border-left: 3px solid #00d4ff44;
+  padding: 0.4rem 0.7rem;
+  border-radius: 0 4px 4px 0;
+}
+
 /* ---- Sample Scenario Library ---- */
 
 .scenario-builder__samples-wrap {
