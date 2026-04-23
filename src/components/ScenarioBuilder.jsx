@@ -10,6 +10,7 @@
  */
 
 import { useState, useCallback } from "react";
+import { SAMPLE_SCENARIOS, scenarioToFormState } from "../data/sampleScenarios";
 import "./ScenarioBuilder.css";
 
 const INDUSTRY_MODES = [
@@ -60,6 +61,25 @@ export default function ScenarioBuilder({ onStart }) {
   const [description, setDescription]     = useState("");
   const [cues, setCues]                   = useState([{ ...EMPTY_CUE }]);
   const [errors, setErrors]               = useState({});
+  const [activeCategory, setActiveCategory] = useState("all");
+
+  const CATEGORIES = ["all", "Oil & Gas", "Data Center", "Education — STEM", "Education — Vocational"];
+
+  const visibleSamples = activeCategory === "all"
+    ? SAMPLE_SCENARIOS
+    : SAMPLE_SCENARIOS.filter((s) => s.category === activeCategory);
+
+  const loadSample = useCallback((scenario) => {
+    const state = scenarioToFormState(scenario);
+    setVideoInput(state.videoInput);
+    setIndustry(state.industry);
+    setTitle(state.title);
+    setDescription(state.description);
+    setCues(state.cues);
+    setErrors({});
+    // Scroll form into view
+    document.querySelector(".scenario-builder__form")?.scrollIntoView({ behavior: "smooth" });
+  }, []);
 
   // -------------------------------------------------------------------------
   // Cue management
@@ -143,6 +163,53 @@ export default function ScenarioBuilder({ onStart }) {
         <h1 className="scenario-builder__title">DEXAVIEW</h1>
         <p className="scenario-builder__subtitle">Configure Your Industrial Simulation</p>
       </header>
+
+      {/* -------------------------------------------------------------------- */}
+      {/* Sample Scenario Library                                               */}
+      {/* -------------------------------------------------------------------- */}
+      <div className="scenario-builder__samples-wrap">
+        <div className="scenario-builder__samples-header">
+          <span className="scenario-builder__samples-title">SAMPLE SCENARIOS — Load to test immediately</span>
+          <div className="scenario-builder__category-tabs">
+            {CATEGORIES.map((cat) => (
+              <button
+                key={cat}
+                type="button"
+                className={`scenario-builder__cat-tab ${activeCategory === cat ? "scenario-builder__cat-tab--active" : ""}`}
+                onClick={() => setActiveCategory(cat)}
+              >
+                {cat === "all" ? "All" : cat}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="scenario-builder__samples-grid">
+          {visibleSamples.map((s) => (
+            <div key={s.id} className="scenario-builder__sample-card">
+              <div className="scenario-builder__sample-category">{s.category}</div>
+              <div className="scenario-builder__sample-label">{s.label}</div>
+              <div className="scenario-builder__sample-desc">{s.description_short}</div>
+              <div className="scenario-builder__sample-meta">
+                {s.cues.length} event{s.cues.length !== 1 ? "s" : ""} · {s.standards.slice(0, 2).join(" · ")}
+              </div>
+              <button
+                type="button"
+                className="scenario-builder__sample-load-btn"
+                onClick={() => loadSample(s)}
+              >
+                Load This Scenario ↓
+              </button>
+            </div>
+          ))}
+        </div>
+
+        <p className="scenario-builder__samples-note">
+          ⚠ Sample scenarios use placeholder video IDs. Replace the Video ID field
+          with a real YouTube video ID before launching. See the Sources Guide below
+          for recommended videos for each scenario.
+        </p>
+      </div>
 
       <form className="scenario-builder__form" onSubmit={handleSubmit}>
 
