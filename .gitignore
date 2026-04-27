@@ -31,3 +31,6 @@ Thumbs.db
 *.log
 
 Dexaview.code-workspace
+*.doc
+*.docx
+
