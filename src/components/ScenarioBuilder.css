@@ -1,12 +1,13 @@
 .scenario-builder {
   min-height: 100vh;
-  background: #0a0d14;
-  color: #e0e8f0;
-  font-family: 'Segoe UI', system-ui, sans-serif;
-  padding: 2rem;
+  background: var(--dx-bg);
+  color: var(--dx-text);
+  font-family: var(--dx-font-ui);
+  padding: 2rem 2rem 4rem;   /* extra bottom padding so submit is never clipped */
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-y: auto;          /* allow the long form to scroll */
 }
 
 .scenario-builder__header {
@@ -18,7 +19,7 @@
   font-size: 2.8rem;
   font-weight: 800;
   letter-spacing: 0.3em;
-  color: #00d4ff;
+  color: var(--dx-accent);
   margin: 0;
 }
 
@@ -39,8 +40,8 @@
 }
 
 .scenario-builder__section {
-  background: #121824;
-  border: 1px solid #1e2d3d;
+  background: var(--dx-surface);
+  border: 1px solid var(--dx-border);
   border-radius: 8px;
   padding: 1.5rem;
   display: flex;
@@ -53,9 +54,9 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #00d4ff;
+  color: var(--dx-accent);
   margin: 0 0 0.4rem 0;
-  border-bottom: 1px solid #1e2d3d;
+  border-bottom: 1px solid var(--dx-border);
   padding-bottom: 0.6rem;
 }
 
@@ -93,10 +94,10 @@
 .scenario-builder__input,
 .scenario-builder__select,
 .scenario-builder__textarea {
-  background: #0a0d14;
-  border: 1px solid #1e2d3d;
+  background: var(--dx-bg);
+  border: 1px solid var(--dx-border);
   border-radius: 4px;
-  color: #e0e8f0;
+  color: var(--dx-text);
   font-size: 0.92rem;
   padding: 0.55rem 0.8rem;
   font-family: inherit;
@@ -110,7 +111,7 @@
 .scenario-builder__select:focus,
 .scenario-builder__textarea:focus {
   outline: none;
-  border-color: #00d4ff;
+  border-color: var(--dx-accent);
 }
 
 .scenario-builder__input--error {
@@ -150,7 +151,7 @@
 .scenario-builder__cue-label {
   font-size: 0.78rem;
   font-weight: 700;
-  color: #00d4ff;
+  color: var(--dx-accent);
   text-transform: uppercase;
   letter-spacing: 0.1em;
 }
@@ -191,7 +192,7 @@
 
 .scenario-builder__add-btn {
   background: transparent;
-  border: 1px dashed #1e2d3d;
+  border: 1px dashed var(--dx-border);
   color: #7a9bb5;
   border-radius: 6px;
   padding: 0.8rem;
@@ -203,14 +204,14 @@
 }
 
 .scenario-builder__add-btn:hover {
-  border-color: #00d4ff;
-  color: #00d4ff;
+  border-color: var(--dx-accent);
+  color: var(--dx-accent);
 }
 
 .scenario-builder__submit-btn {
-  background: #00d4ff;
+  background: var(--dx-accent);
   border: none;
-  color: #0a0d14;
+  color: var(--dx-bg);
   border-radius: 6px;
   padding: 1rem 2rem;
   font-size: 1rem;
@@ -239,7 +240,7 @@
   width: 100%;
   max-width: 1100px;
   background: #0d1a2a;
-  border: 1px solid #00d4ff33;
+  border: 1px solid var(--dx-accent)33;
   border-radius: 10px;
   padding: 1.8rem;
   margin-bottom: 2rem;
@@ -258,16 +259,16 @@
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.14em;
-  color: #00d4ff;
+  color: var(--dx-accent);
   text-transform: uppercase;
 }
 
 .scenario-builder__pro-badge {
   display: inline-block;
   margin-left: 0.6rem;
-  background: #00d4ff22;
-  border: 1px solid #00d4ff55;
-  color: #00d4ff;
+  background: var(--dx-accent)22;
+  border: 1px solid var(--dx-accent)55;
+  color: var(--dx-accent);
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -316,7 +317,7 @@
 }
 
 .scenario-builder__pro-example-btn:hover {
-  border-color: #00d4ff44;
+  border-color: var(--dx-accent)44;
   color: #a0c8d8;
 }
 
@@ -325,7 +326,7 @@
   background: #060c14;
   border: 1px solid #1e3050;
   border-radius: 6px;
-  color: #e0e8f0;
+  color: var(--dx-text);
   font-size: 0.92rem;
   padding: 1rem;
   font-family: inherit;
@@ -336,7 +337,7 @@
 
 .scenario-builder__pro-textarea:focus {
   outline: none;
-  border-color: #00d4ff;
+  border-color: var(--dx-accent);
 }
 
 .scenario-builder__pro-textarea::placeholder {
@@ -374,7 +375,7 @@
 }
 
 .scenario-builder__pro-parse-btn {
-  background: #00d4ff;
+  background: var(--dx-accent);
   border: none;
   color: #060c14;
   border-radius: 6px;
@@ -430,7 +431,7 @@
   font-weight: 400;
   display: block;
   background: #0d1a2a;
-  border-left: 3px solid #00d4ff44;
+  border-left: 3px solid var(--dx-accent)44;
   padding: 0.4rem 0.7rem;
   border-radius: 0 4px 4px 0;
 }
@@ -451,14 +452,14 @@
   gap: 1rem;
   margin-bottom: 1rem;
   padding-bottom: 0.8rem;
-  border-bottom: 1px solid #1e2d3d;
+  border-bottom: 1px solid var(--dx-border);
 }
 
 .scenario-builder__samples-title {
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.12em;
-  color: #00d4ff;
+  color: var(--dx-accent);
   text-transform: uppercase;
 }
 
@@ -470,7 +471,7 @@
 
 .scenario-builder__cat-tab {
   background: transparent;
-  border: 1px solid #1e2d3d;
+  border: 1px solid var(--dx-border);
   color: #5a7a90;
   border-radius: 20px;
   padding: 0.3rem 0.9rem;
@@ -481,14 +482,14 @@
 }
 
 .scenario-builder__cat-tab:hover {
-  border-color: #00d4ff44;
+  border-color: var(--dx-accent)44;
   color: #a0c0d0;
 }
 
 .scenario-builder__cat-tab--active {
-  border-color: #00d4ff;
-  color: #00d4ff;
-  background: #00d4ff11;
+  border-color: var(--dx-accent);
+  color: var(--dx-accent);
+  background: var(--dx-accent)11;
 }
 
 .scenario-builder__samples-grid {
@@ -509,7 +510,7 @@
 }
 
 .scenario-builder__sample-card:hover {
-  border-color: #00d4ff44;
+  border-color: var(--dx-accent)44;
 }
 
 .scenario-builder__sample-category {
@@ -517,13 +518,13 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #00d4ff;
+  color: var(--dx-accent);
 }
 
 .scenario-builder__sample-label {
   font-size: 0.92rem;
   font-weight: 600;
-  color: #e0e8f0;
+  color: var(--dx-text);
   line-height: 1.3;
 }
 
@@ -545,8 +546,8 @@
 
 .scenario-builder__sample-load-btn {
   background: transparent;
-  border: 1px solid #00d4ff44;
-  color: #00d4ff;
+  border: 1px solid var(--dx-accent)44;
+  color: var(--dx-accent);
   border-radius: 4px;
   padding: 0.5rem;
   font-size: 0.78rem;
@@ -559,7 +560,7 @@
 }
 
 .scenario-builder__sample-load-btn:hover {
-  background: #00d4ff15;
+  background: var(--dx-accent)15;
 }
 
 .scenario-builder__samples-note {
@@ -567,6 +568,6 @@
   color: #4a6070;
   margin-top: 1rem;
   line-height: 1.5;
-  border-left: 3px solid #1e2d3d;
+  border-left: 3px solid var(--dx-border);
   padding-left: 0.8rem;
 }

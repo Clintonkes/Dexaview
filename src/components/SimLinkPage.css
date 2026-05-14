@@ -1,369 +1,425 @@
-/* ============================================================
-   SimLinkPage.css
-   Dark industrial theme – three-column layout
-   ============================================================ */
+/* src/components/SimLinkPage.css */
 
-:root {
-  --color-bg:          #080b12;
-  --color-surface:     #0f1520;
-  --color-border:      #1e2d45;
-  --color-accent:      #00d4ff;
-  --color-accent-warm: #ff6b35;
-  --color-danger:      #ff2d4a;
-  --color-text:        #c8d6e5;
-  --color-text-muted:  #546e8a;
-  --font-mono:         "JetBrains Mono", "Fira Code", monospace;
-  --font-ui:           "DM Sans", "Segoe UI", sans-serif;
-}
+/* ================================================================
+   Page shell
+   ================================================================ */
 
-/* ---- Layout ---- */
-
-.simlink-page {
-  display: grid;
-  grid-template-columns: 340px 1fr 320px;
+.sl-page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   height: 100vh;
-  background: var(--color-bg);
-  color: var(--color-text);
-  font-family: var(--font-ui);
+  background: var(--dx-bg);
+  color: var(--dx-text);
+  font-family: var(--dx-font-ui);
   overflow: hidden;
 }
 
-/* ---- Panel headers ---- */
+/* ================================================================
+   Top navigation bar
+   ================================================================ */
 
-.simlink-page__panel-header {
+.sl-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 44px;
+  padding: 0 16px;
+  background: var(--dx-surface-2);
+  border-bottom: 1px solid var(--dx-border);
+  flex-shrink: 0;
+  gap: 16px;
+  z-index: 10;
+}
+
+/* Back button */
+.sl-topbar__back {
+  background: transparent;
+  border: 1px solid var(--dx-border);
+  color: var(--dx-text-2);
+  font-family: var(--dx-font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 5px 12px;
+  border-radius: 3px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: border-color var(--dx-fast), color var(--dx-fast);
+}
+
+.sl-topbar__back:hover {
+  border-color: var(--dx-accent);
+  color: var(--dx-accent);
+}
+
+/* Centre — logo + scenario title */
+.sl-topbar__center {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+  justify-content: center;
+}
+
+.sl-topbar__logo {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--dx-accent);
+  flex-shrink: 0;
+}
+
+.sl-topbar__sep {
+  color: var(--dx-border-2);
+  font-size: 14px;
+}
+
+.sl-topbar__scenario-title {
+  font-size: 12px;
+  color: var(--dx-text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 420px;
+}
+
+/* Right — industry pill + live status */
+.sl-topbar__right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.sl-topbar__industry-pill {
+  font-family: var(--dx-font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 3px 9px;
+  border-radius: 20px;
+  border: 1px solid;
+}
+
+.sl-topbar__industry-pill--oil_gas,
+.sl-topbar__industry-pill--offshore,
+.sl-topbar__industry-pill--pipeline {
+  color: #ff9a3c;
+  border-color: rgba(255, 154, 60, 0.4);
+  background: rgba(255, 154, 60, 0.08);
+}
+
+.sl-topbar__industry-pill--data_center,
+.sl-topbar__industry-pill--manufacturing {
+  color: var(--dx-accent);
+  border-color: var(--dx-accent-dim);
+  background: var(--dx-accent-dim);
+}
+
+.sl-topbar__status {
+  font-family: var(--dx-font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.sl-topbar__status--live { color: var(--dx-success); }
+.sl-topbar__status--init { color: var(--dx-text-3); }
+
+/* ================================================================
+   Body — three-panel grid
+   ================================================================ */
+
+.sl-body {
+  display: grid;
+  grid-template-columns: 300px 1fr 300px;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ================================================================
+   Generic panel (left + right columns)
+   ================================================================ */
+
+.sl-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  background: var(--dx-surface);
+}
+
+.sl-panel--left  { border-right: 1px solid var(--dx-border); }
+.sl-panel--right { border-left:  1px solid var(--dx-border); }
+
+.sl-panel__header {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 16px;
-  border-bottom: 1px solid var(--color-border);
-  background: var(--color-surface);
+  height: 36px;
+  padding: 0 14px;
+  border-bottom: 1px solid var(--dx-border);
+  flex-shrink: 0;
+  background: var(--dx-surface-2);
 }
 
-.simlink-page__panel-label {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  color: var(--color-accent);
-  text-transform: uppercase;
+.sl-panel__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--dx-accent);
+  box-shadow: 0 0 5px var(--dx-accent-glow);
 }
 
-/* ---- YouTube column ---- */
-
-.simlink-page__youtube {
-  display: flex;
-  flex-direction: column;
-  border-right: 1px solid var(--color-border);
-  background: var(--color-surface);
+.sl-panel__label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--dx-accent);
 }
 
-.simlink-page__yt-frame {
+/* ================================================================
+   Left panel — YouTube + cue list
+   ================================================================ */
+
+.sl-yt-frame {
   flex: 1;
   min-height: 0;
+  background: #000;
 }
 
-.simlink-page__yt-frame iframe {
+.sl-yt-frame iframe {
   width: 100%;
   height: 100%;
   border: none;
+  display: block;
 }
 
-.simlink-page__seek-controls {
+.sl-cue-list {
+  flex-shrink: 0;
+  border-top: 1px solid var(--dx-border);
+  padding: 10px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 12px;
-  border-top: 1px solid var(--color-border);
+  gap: 5px;
+  max-height: 200px;
+  overflow-y: auto;
 }
 
-.simlink-page__seek-btn {
-  background: transparent;
-  border: 1px solid var(--color-border);
-  color: var(--color-text);
-  font-family: var(--font-mono);
+.sl-cue-list__heading {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--dx-text-3);
+  padding: 0 2px 4px;
+  border-bottom: 1px solid var(--dx-border);
+  margin-bottom: 2px;
+}
+
+.sl-cue-list__empty {
   font-size: 11px;
+  color: var(--dx-text-3);
+  text-align: center;
+  padding: 8px 0;
+}
+
+.sl-cue-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: 1px solid var(--dx-border);
+  border-radius: 3px;
+  color: var(--dx-text-2);
   padding: 6px 10px;
-  cursor: pointer;
+  font-size: 11px;
   text-align: left;
-  transition: border-color 0.15s, color 0.15s;
+  transition: border-color var(--dx-fast), background var(--dx-fast), color var(--dx-fast);
 }
 
-.simlink-page__seek-btn:hover {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
+.sl-cue-btn:hover {
+  border-color: var(--dx-accent);
+  background: var(--dx-accent-dim);
+  color: var(--dx-text);
 }
 
-/* ---- Canvas column ---- */
+.sl-cue-btn__time {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--dx-accent);
+  flex-shrink: 0;
+}
 
-.simlink-page__canvas-wrap {
+.sl-cue-btn__event {
+  flex: 1;
+  text-transform: capitalize;
+  font-size: 11px;
+}
+
+.sl-cue-btn__arrow {
+  color: var(--dx-text-3);
+  font-size: 12px;
+}
+
+/* ================================================================
+   Centre — canvas
+   ================================================================ */
+
+.sl-canvas-wrap {
   position: relative;
   display: flex;
   align-items: stretch;
+  min-width: 0;
 }
 
-.simlink-page__canvas {
+.sl-canvas {
   width: 100%;
   height: 100%;
   display: block;
 }
 
-/* HUD: event badge */
-.simlink-page__event-badge {
+/* ================================================================
+   Event alert overlay
+   ================================================================ */
+
+.sl-event-alert {
   position: absolute;
-  top: 20px;
+  top: 56px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(10, 13, 20, 0.92);
-  border: 2px solid var(--color-danger);
-  color: #fff;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  padding: 12px 20px;
-  border-radius: 4px;
-  max-width: 480px;
-  width: 90%;
+  width: min(500px, 90%);
+  background: rgba(7, 9, 15, 0.94);
+  border: 1px solid var(--dx-danger);
+  border-radius: 6px;
+  padding: 16px 20px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
+  box-shadow: 0 0 30px rgba(255, 51, 85, 0.2), 0 8px 32px rgba(0,0,0,0.5);
+  backdrop-filter: blur(8px);
+  animation: alert-in 0.3s var(--dx-ease);
+  z-index: 20;
 }
 
-.simlink-page__event-name {
-  color: var(--color-danger);
-  font-size: 13px;
+@keyframes alert-in {
+  from { opacity: 0; transform: translateX(-50%) translateY(-8px) scale(0.97); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0)    scale(1);    }
 }
 
-.simlink-page__event-desc {
-  color: #c8d6e5;
-  font-family: var(--font-ui);
-  font-size: 12px;
-  font-weight: 400;
-  letter-spacing: 0;
-  line-height: 1.5;
-  border-top: 1px solid #1e2d45;
-  padding-top: 6px;
-}
-
-.simlink-page__event-prompt {
-  color: var(--color-accent);
+.sl-event-alert__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-size: 11px;
-  font-weight: 400;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--dx-danger);
+  background: var(--dx-danger-dim);
+  border: 1px solid rgba(255, 51, 85, 0.3);
+  border-radius: 20px;
+  padding: 3px 12px;
+  align-self: flex-start;
+}
+
+.sl-event-alert__desc {
+  font-size: 12.5px;
+  color: var(--dx-text);
+  line-height: 1.65;
+  border-top: 1px solid var(--dx-border);
+  padding-top: 10px;
+}
+
+.sl-event-alert__cta {
+  font-size: 11px;
+  color: var(--dx-accent);
+  font-family: var(--dx-font-mono);
   letter-spacing: 0.05em;
-  animation: badge-pulse 0.4s ease-in-out infinite alternate;
-  pointer-events: none;
+  animation: cta-pulse 1s ease-in-out infinite alternate;
 }
 
-@keyframes badge-pulse {
+@keyframes cta-pulse {
   from { opacity: 1; }
-  to   { opacity: 0.65; }
+  to   { opacity: 0.55; }
 }
 
-/* Manual trigger row */
-.simlink-page__trigger-row {
+/* ================================================================
+   Manual trigger row
+   ================================================================ */
+
+.sl-trigger-row {
   position: absolute;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 12px;
+  gap: 10px;
+  z-index: 10;
 }
 
-.simlink-page__trigger-btn {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  color: var(--color-text);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.08em;
+.sl-trigger-btn {
+  background: rgba(7, 9, 15, 0.8);
+  border: 1px solid var(--dx-border-2);
+  color: var(--dx-text-2);
+  font-family: var(--dx-font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
   padding: 8px 18px;
-  cursor: pointer;
-  transition: border-color 0.15s, color 0.15s;
+  border-radius: 3px;
+  backdrop-filter: blur(4px);
+  transition: border-color var(--dx-fast), color var(--dx-fast), background var(--dx-fast);
 }
 
-.simlink-page__trigger-btn:hover {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
+.sl-trigger-btn:hover {
+  border-color: var(--dx-accent);
+  color: var(--dx-accent);
+  background: var(--dx-accent-dim);
 }
 
-.simlink-page__trigger-btn--danger:hover {
-  border-color: var(--color-danger);
-  color: var(--color-danger);
+.sl-trigger-btn--danger:hover {
+  border-color: var(--dx-danger);
+  color: var(--dx-danger);
+  background: var(--dx-danger-dim);
 }
 
-/* ---- 3D overlay labels (CSS2DObject) ---- */
+/* ================================================================
+   3D overlay labels (CSS2DObject)
+   ================================================================ */
 
 .dexaview-overlay {
-  background: rgba(8, 11, 18, 0.85);
-  border: 1px solid var(--color-border);
+  background: rgba(7, 9, 15, 0.88);
+  border: 1px solid var(--dx-border-2);
   padding: 8px 12px;
-  min-width: 160px;
-  backdrop-filter: blur(6px);
+  min-width: 156px;
+  backdrop-filter: blur(8px);
+  border-radius: 4px;
 }
 
 .dexaview-overlay__title {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  color: var(--color-accent);
-  margin-bottom: 6px;
+  font-family: var(--dx-font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--dx-accent);
+  margin-bottom: 7px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--dx-border);
 }
 
 .dexaview-overlay__row {
   display: flex;
   justify-content: space-between;
-  gap: 16px;
+  gap: 14px;
   font-size: 11px;
   padding: 2px 0;
 }
 
-.dexaview-overlay__label { color: var(--color-text-muted); }
-.dexaview-overlay__value { color: var(--color-text); font-family: var(--font-mono); }
-
-/* ============================================================
-   AdvisorPanel.css
-   ============================================================ */
-
-.advisor-panel {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  border-left: 1px solid var(--color-border);
-  background: var(--color-surface);
-}
-
-.advisor-panel__header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--color-border);
-  flex-shrink: 0;
-}
-
-.advisor-panel__indicator {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--color-accent);
-  box-shadow: 0 0 6px var(--color-accent);
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.4; }
-}
-
-.advisor-panel__title {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.12em;
-  color: var(--color-accent);
-  flex: 1;
-}
-
-.advisor-panel__subtitle {
+.dexaview-overlay__label { color: var(--dx-text-3); }
+.dexaview-overlay__value {
+  color: var(--dx-text);
+  font-family: var(--dx-font-mono);
   font-size: 10px;
-  color: var(--color-text-muted);
 }
-
-.advisor-panel__messages {
-  flex: 1;
-  overflow-y: auto;
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--color-border) transparent;
-}
-
-.advisor-panel__empty {
-  font-size: 12px;
-  color: var(--color-text-muted);
-  text-align: center;
-  margin-top: 40px;
-  line-height: 1.6;
-}
-
-.advisor-panel__message {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: 10px 12px;
-  border-radius: 2px;
-}
-
-.advisor-panel__message--user {
-  background: rgba(0, 212, 255, 0.06);
-  border-left: 2px solid var(--color-accent);
-}
-
-.advisor-panel__message--assistant {
-  background: rgba(255, 255, 255, 0.03);
-  border-left: 2px solid var(--color-border);
-}
-
-.advisor-panel__message--error {
-  background: rgba(255, 45, 74, 0.08);
-  border-left: 2px solid var(--color-danger);
-}
-
-.advisor-panel__role {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.14em;
-  color: var(--color-text-muted);
-}
-
-.advisor-panel__content {
-  font-size: 12.5px;
-  line-height: 1.65;
-  color: var(--color-text);
-  white-space: pre-wrap;
-  margin: 0;
-}
-
-.advisor-panel__time {
-  font-size: 9px;
-  color: var(--color-text-muted);
-  font-family: var(--font-mono);
-  align-self: flex-end;
-}
-
-.advisor-panel__input-row {
-  display: flex;
-  gap: 0;
-  border-top: 1px solid var(--color-border);
-  flex-shrink: 0;
-}
-
-.advisor-panel__input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  color: var(--color-text);
-  font-family: var(--font-ui);
-  font-size: 13px;
-  padding: 14px 12px;
-  outline: none;
-}
-
-.advisor-panel__input::placeholder {
-  color: var(--color-text-muted);
-}
-
-.advisor-panel__send {
-  background: var(--color-accent);
-  border: none;
-  color: var(--color-bg);
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  padding: 0 18px;
-  cursor: pointer;
-  transition: opacity 0.15s;
-}
-
-.advisor-panel__send:hover { opacity: 0.85; }

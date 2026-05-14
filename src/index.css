@@ -1,50 +1,106 @@
 /*
- * index.css
- * ---------
- * Global reset and base styles for Dexaview.
- * Fonts are loaded from Google Fonts; the rest of the styling is
- * scoped to component CSS files.
+ * index.css — Dexaview global design system
+ * ------------------------------------------
+ * Design tokens, reset, and base typography only.
+ * Overflow is NOT set here — each page controls its own scroll context.
  */
 
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;700&display=swap");
+/* ---- Google Fonts ---- */
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500;700&display=swap");
 
-*,
-*::before,
-*::after {
+/* ---- Design tokens (shared across all components) ---- */
+:root {
+  /* Backgrounds */
+  --dx-bg:           #07090f;
+  --dx-surface:      #0d1117;
+  --dx-surface-2:    #111827;
+  --dx-surface-3:    #172030;
+
+  /* Borders */
+  --dx-border:       #1c2d40;
+  --dx-border-2:     #243548;
+
+  /* Accent — cyan */
+  --dx-accent:       #00d4ff;
+  --dx-accent-dim:   rgba(0, 212, 255, 0.12);
+  --dx-accent-glow:  rgba(0, 212, 255, 0.25);
+
+  /* Status colours */
+  --dx-success:      #00e676;
+  --dx-warning:      #ffc107;
+  --dx-danger:       #ff3355;
+  --dx-danger-dim:   rgba(255, 51, 85, 0.15);
+
+  /* Text */
+  --dx-text:         #d0dce8;
+  --dx-text-2:       #8ba0b4;
+  --dx-text-3:       #4a6070;
+
+  /* Typography */
+  --dx-font-ui:      "DM Sans", "Segoe UI", system-ui, sans-serif;
+  --dx-font-mono:    "JetBrains Mono", "Fira Code", monospace;
+
+  /* Motion */
+  --dx-ease:         cubic-bezier(0.16, 1, 0.3, 1);
+  --dx-fast:         0.12s;
+  --dx-mid:          0.22s;
+}
+
+/* ---- Reset ---- */
+*, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-html,
-body,
-#root {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: #080b12;
-  color: #c8d6e5;
-  font-family: "DM Sans", "Segoe UI", sans-serif;
+html {
+  font-size: 14px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
-/* Remove default button styling so components have full control */
+body {
+  background: var(--dx-bg);
+  color: var(--dx-text);
+  font-family: var(--dx-font-ui);
+  line-height: 1.5;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
 button {
   font-family: inherit;
   cursor: pointer;
 }
 
-/* Thin scrollbar for dark theme */
-::-webkit-scrollbar {
-  width: 4px;
+a {
+  color: var(--dx-accent);
+  text-decoration: none;
 }
 
-::-webkit-scrollbar-track {
-  background: transparent;
+/* ---- Scrollbar — thin dark ---- */
+::-webkit-scrollbar        { width: 4px; height: 4px; }
+::-webkit-scrollbar-track  { background: transparent; }
+::-webkit-scrollbar-thumb  { background: var(--dx-border-2); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--dx-text-3); }
+
+/* ---- Utility classes ---- */
+.dx-mono {
+  font-family: var(--dx-font-mono);
+  letter-spacing: 0.06em;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #1e2d45;
-  border-radius: 2px;
+.dx-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--dx-text-3);
 }
+
+.dx-accent-text { color: var(--dx-accent); }
+.dx-danger-text { color: var(--dx-danger); }

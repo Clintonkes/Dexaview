@@ -11,7 +11,7 @@ function App() {
     return <ScenarioBuilder onStart={setScenario} />;
   }
 
-  return <SimLinkPage scenario={scenario} />;
+  return <SimLinkPage scenario={scenario} onBack={() => setScenario(null)} />;
 }
 
 createRoot(document.getElementById("root")).render(
