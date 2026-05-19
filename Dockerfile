@@ -3,6 +3,12 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
+
+# Declare build-time variables so Vite can bake them into the JS bundle.
+# Railway passes service environment variables as Docker build args automatically.
+ARG VITE_OPENAI_API_KEY
+ENV VITE_OPENAI_API_KEY=$VITE_OPENAI_API_KEY
+
 RUN mkdir -p public/draco && cp -r node_modules/three/examples/jsm/libs/draco/gltf/* public/draco/
 RUN npm run build
 RUN ls -la dist/
