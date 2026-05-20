@@ -44,7 +44,7 @@ function extractVideoId(input) {
   const match = input.match(
     /(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/
   );
-  return match ? match[1] : input.trim();
+  return match ? match[1] : "";
 }
 
 // Convert "mm:ss" or bare seconds string to a number
@@ -167,7 +167,6 @@ export default function ScenarioBuilder({ onStart }) {
 
   const validate = useCallback(() => {
     const errs = {};
-    if (!videoInput.trim()) errs.video = "YouTube URL or video ID is required.";
     if (!title.trim()) errs.title = "Scenario title is required.";
     cues.forEach((cue, i) => {
       if (!cue.time) errs[`cue_${i}_time`] = "Timestamp required.";

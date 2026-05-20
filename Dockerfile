@@ -25,3 +25,6 @@ EXPOSE 8080
 # start.sh safely substitutes only the listen port and launches nginx.
 ENTRYPOINT []
 CMD ["/start.sh"]
+
+
+# If there is no video id/youtube url but the other fields are populated, let the simulation be successful. Also, if it is only the video url that is provided, let our engine parse it and launch the simulation

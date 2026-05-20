@@ -66,6 +66,9 @@ export default function SimLinkPage({ scenario, onBack }) {
         { position: new THREE.Vector3(0, 0, 0), scale: new THREE.Vector3(1, 1, 1) },
         true
       );
+    }).catch(() => {
+      engine.start();
+      setEngineReady(true);
     });
 
     const handleAiResponse = ({ detail }) => {
